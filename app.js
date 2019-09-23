@@ -7,8 +7,8 @@ const routes = require('./routes');
 
 const db = require('./models');
 const sequelize = require('./models').sequelize;
-const { User } = db.models;
-const { Book } = db.models;
+const  User  = db.User;
+const  Book  = db.Book;
 
 
 app.use(routes);
@@ -19,10 +19,14 @@ app.use('/static', express.static('public'));
 
 
 // Test DB
-sequelize
-    .authenticate()
-    .then(() => console.log('Database connection is considered successful.'))
-    .catch(error => console.error(`Database connection error: $ {error}`));
+(async () => {
+    try {
+        await sequelize.authenticate();
+        console.log('Connection to the database successful!');
+    } catch (error) {
+        console.error('Error connecting to the database: ', error);
+    }
+})();
 
 /*
 (async () => {

@@ -9,13 +9,9 @@ var Book = require('../models').Book;
 // When request is made to '/books'
 router.get('/', (req, res) => {
   // Get all from Book table and order by 'title'
-  Book.findAll({ order: [['title']] })
-    .then(function (books) {
-      res.render('index', {
-        books: books,
-        title: 'Library Book Database'
-      });
-    });
+  res.render('index', {
+    title: 'Library Book Database'
+  });
 });
 
 module.exports = router;
