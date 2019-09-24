@@ -1,37 +1,21 @@
 extends layout.pug
 
-block content 
-  p This is #{title}
-    
-  table
-    thead
-        tr
-        th Title
-        th Author
-        th Genre
-        th Year
-    tbody
-        tr
-        td
-            a(href='book_detail.html') A Brief History of Time
-        td Stephen Hawking
-        td Non Fiction
-        td 1988
-        tr
-        td
-            a(href='book_detail.html') Armada
-        td Ernest Cline
-        td Science Fiction
-        td 2015
-        tr
-        td
-            a(href='book_detail.html') Emma
-        td Jane Austen
-        td Classic
-        td 1815
-        tr
-        td
-            a(href='book_detail.html') Frankenstein
-        td Mary Shelley
-        td Horror
-        td 1818
+block content
+
+    h2 #{title}
+
+    table
+        thead
+            tr
+            th Title
+            th Author
+            th Genre
+            th Year
+        tbody
+            each book in books
+                tr
+                td
+                    a(href="book_detail.html")= book.title
+                td= book.author
+                td= book.genre
+                td= book.year
