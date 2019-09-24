@@ -7,8 +7,7 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const booksRouter = require('./routes/books');
-const newRouter = require('./routes/new');
-const updateRouter = require('./routes/update');
+
 
 const app = express();
 
@@ -26,8 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', indexRouter);
 app.use('/books', booksRouter);
-app.use('/new', newRouter);
-app.use('/update', updateRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
