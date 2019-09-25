@@ -28,7 +28,6 @@ app.get('/new', (req, res) => {
     res.render('new-book');
 });
 
-
 // POST execute 'add new book' form
 app.post('/new', (req, res) => {
     models.Book.create({
