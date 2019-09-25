@@ -69,9 +69,11 @@ app.use((req, res, next) => {
 
 
 
-
-app.listen(3000, () => {
-    console.log('the app is listening on port 3000. created on sept 23');
+app.listen(process.env.PORT, () => {
+    console.log(`app is listening on  port ${process.env.PORT}`);
 });
+// app.listen(3000, () => {
+//     console.log('the app is listening on port 3000. created on sept 23');
+// });
 
 
