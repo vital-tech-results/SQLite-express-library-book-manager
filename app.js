@@ -45,6 +45,10 @@ app.use((req, res, next) => {
     res.render('page-not-found');
 });
 
-app.listen(3000, () => { });
+// app.listen(3000, () => { });
 
+// this was helpful to resolve heroku app not loading https://stackoverflow.com/questions/45913164/expressjs-heroku-application-error
 
+app.listen(process.env.PORT, () => {
+    console.log(`app is listening on  port ${process.env.PORT}`);
+});
