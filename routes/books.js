@@ -3,11 +3,15 @@ const router = express.Router();
 const app = express();
 const models = require('../models');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+
+app.use(methodOverride('_method'));
 
 /** ADAPTED FROM
  * https://sequelize.readthedocs.io/en/1.7.0/articles/express/ 
  * https://gist.github.com/vapurrmaid/a111bf3fc0224751cb2f76532aac2465
  * */
+// get list of ALL books currently in database
 app.get('/', (req, res) => {
     models.Book.findAll()
         .then(books => {
@@ -18,12 +22,12 @@ app.get('/', (req, res) => {
         });
 });
 
-
+// display the "ADD new book" form
 app.get('/new', (req, res) => {
     res.render('new-book');
 });
 
-
+// execute 'add new book' form
 app.post('/new', (req, res) => {
     models.Book.create({
         title: req.body.title,
@@ -32,10 +36,10 @@ app.post('/new', (req, res) => {
         year: req.body.year
     })
         .then((book) => {
-            res.json(book);
-            const title = req.body.title;
-            console.log("post received horray", title);
-            res.redirect('new-books');
+            // res.json(book);
+            // const title = req.body.title;
+            // console.log("post received horray", title);
+            res.redirect('/');
         });
 });
 
@@ -51,24 +55,13 @@ app.get('/:id', (req, res) => {
                 genre: book.genre,
                 year: book.year
             });
-        });
+        })
+        .catch(err => res.render('error'));
 });
 
 // update book details
-/*
-app.put('/:id', (req, res, next) => {
-    res.render('update-book');
-    models.Book.update(
-        { title: req.body.title },
-        { returning: true, where: { id: req.params.id } }
-    )
-        .then(function ([rowsUpdate, [updatedBook]]) {
-            res.json(updatedBook)
-        })
-        .catch(next);
-});
-*/
 app.put('/:id', function (req, res, next) {
+    models.Book.findByPk(req.params.id);
     models.Book.update(
         {
             title: req.body.title,
@@ -76,18 +69,39 @@ app.put('/:id', function (req, res, next) {
             genre: req.body.genre,
             year: req.body.year
         },
-        { where: { id: id } },
+        { where: { id: req.params.id } },
         { fields: ['title', 'author', 'genre', 'year'] }
     )
-        .then((book) => {
-            res.render('update-book', {
-                id: book.id,
-                title: book.title,
-                author: book.author,
-                genre: book.genre,
-                year: book.year
-            });
+        .then(book => {
+            res.redirect('/');
+        })
+        .catch((error) => {
+            if (error.name === "SequelizeValidationError") {
+                const book = models.Book.build(req.body);
+                res.render('update-book', {
+                    book: book,
+                    id: book.id,
+                    title: book.title,
+                    author: book.author,
+                    genre: book.genre,
+                    year: book.year,
+                    errors: error.errors,
+                });
+            } else {
+                throw error;
+            }
         });
 });
 
+// delete book from database
+app.delete('/:id/delete', (req, res, next) => {
+    models.Book.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(book => {
+            res.redirect('/');
+        });
+});
 module.exports = app;

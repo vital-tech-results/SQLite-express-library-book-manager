@@ -8,10 +8,54 @@ module.exports = function (sequelize, DataTypes) {
             primaryKey: true,
             autoIncrement: true,
         },
-        title: DataTypes.STRING,
-        author: DataTypes.STRING,
-        genre: DataTypes.STRING,
-        year: DataTypes.INTEGER
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: 'Please provide a value for "title"',
+                },
+                notEmpty: {
+                    msg: 'Please provide a value for "title"',
+                },
+            },
+        },
+        author: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: 'Please provide a value for "author"',
+                },
+                notEmpty: {
+                    msg: 'Please provide a value for "author"',
+                },
+            },
+        },
+        genre: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: 'Please provide a value for "genre"',
+                },
+                notEmpty: {
+                    msg: 'Please provide a value for "genre"',
+                },
+            },
+        },
+        year: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: 'Please provide a value for "year"',
+                },
+                notEmpty: {
+                    msg: 'Please provide a value for "year"',
+                },
+            },
+        }
     }, {
         // SEE HERE FOR MORE MODEL OPTIONS: https://teamtreehouse.com/library/using-sql-orms-with-nodejs/defining-models/use-options-to-adjust-models
         sequelize
