@@ -58,6 +58,7 @@ module.exports = function (sequelize, DataTypes) {
         }
     }, {
         // SEE HERE FOR MORE MODEL OPTIONS: https://teamtreehouse.com/library/using-sql-orms-with-nodejs/defining-models/use-options-to-adjust-models
+
         sequelize
     });
     return Book;

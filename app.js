@@ -32,10 +32,12 @@ app.use('/books', booksRouter);
 //these two are originals
 // catch 404 and forward to error handler
 // app.use(function (req, res, next) {
-//     next(createError(404));
+//     // next(createError(404));
+//     res.status(404);
+//     res.render('page-not-found');
 // });
 
-// error handler
+// // error handler
 // app.use(function (err, req, res, next) {
 //     // set locals, only providing error in development
 //     res.locals.message = err.message;
@@ -64,8 +66,6 @@ app.use((req, res, next) => {
     res.status(404);
     res.render('page-not-found');
 });
-
-
 
 
 

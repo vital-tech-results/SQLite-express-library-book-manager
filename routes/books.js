@@ -13,7 +13,8 @@ app.use(methodOverride('_method'));
  * */
 // get list of ALL books currently in database
 app.get('/', (req, res) => {
-    models.Book.findAll()
+    models.Book.findAll({}
+    )
         .then(books => {
             res.render('index', {
                 title: "This is a list of all books currently in the library database",
@@ -27,7 +28,8 @@ app.get('/new', (req, res) => {
     res.render('new-book');
 });
 
-// execute 'add new book' form
+
+// POST execute 'add new book' form
 app.post('/new', (req, res) => {
     models.Book.create({
         title: req.body.title,
@@ -36,10 +38,24 @@ app.post('/new', (req, res) => {
         year: req.body.year
     })
         .then((book) => {
-            // res.json(book);
-            // const title = req.body.title;
-            // console.log("post received horray", title);
             res.redirect('/');
+        })
+        .catch((error) => {
+            if (error.name === "SequelizeValidationError") {
+                const book = models.Book.create(req.body);
+                book.id = req.params.id;
+                res.render('new-book', {
+                    book: book,
+                    id: book.id,
+                    title: req.body.title,
+                    author: req.body.author,
+                    genre: req.body.genre,
+                    year: req.body.year,
+                    errors: error.errors,
+                });
+            } else {
+                throw error;
+            }
         });
 });
 
@@ -78,6 +94,7 @@ app.put('/:id', function (req, res, next) {
         .catch((error) => {
             if (error.name === "SequelizeValidationError") {
                 const book = models.Book.build(req.body);
+                book.id = req.params.id;
                 res.render('update-book', {
                     book: book,
                     id: book.id,

@@ -2,19 +2,27 @@ extends layout.pug
 
 block content
         h2 New Book 
+
             form(method='POST' action='/books/new')
+
+                if(errors)
+                    h2.error Ooops an error occured!
+                    ul.error
+                        each error in errors
+                            li
+                                =error.message
                 p
                     label(for="title") Title
-                    input#title(name="title" type="text")
+                    input#title(name="title" type="text" value=title)
                 p
                     label(for="author") Author
-                    input#author(name="author" type="text")
+                    input#author(name="author" type="text" value=author)
                 p
                     label(for="genre") Genre
-                    input#genre(name="genre" type="text")
+                    input#genre(name="genre" type="text" value=genre)
                 p
                     label(for="year") Year
-                    input#year(name="year" type="text")
+                    input#year(name="year" type="text" value=year)
                 p
                     input(type="submit" value="Create New Book")
                 p
