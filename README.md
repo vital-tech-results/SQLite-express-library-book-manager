@@ -1,7 +1,7 @@
 # SQL Library Manager
 
 * Manage library books using SQLite
-* [View live demo here](https://dominick-designs.github.io/SQLite-express-library-book-manager/)
+* [View live demo here](https://sqlite3-express-library-book.herokuapp.com/books)
 
 
 ## Technologies used
